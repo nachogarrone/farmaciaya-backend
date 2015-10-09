@@ -1,4 +1,4 @@
-package hello;
+package com.farmaciaya.responses;
 
 public class Greeting {
 
