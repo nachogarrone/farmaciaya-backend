@@ -5,7 +5,10 @@ import com.farmaciaya.repositories.UserRepository;
 import com.farmaciaya.requests.LoginRequest;
 import com.farmaciaya.responses.BaseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by nachogarrone on 8/10/15.
@@ -22,18 +25,24 @@ public class LoginController {
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
         baseDTO.setMessage(loginRequest.getUsername());
 
-        userRepository.save(new User(loginRequest.getUsername(),"lastname"));
+        User user = new User();
+        user.setUsername(loginRequest.getUsername());
+        user.setFirstname(loginRequest.getUsername());
+        user.setPassword(loginRequest.getPassword());
+        user.setEmail("someemail");
+
+        userRepository.save(user);
 
         return baseDTO;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public BaseDTO getUsers() {
-       BaseDTO baseDTO = new BaseDTO();
+        BaseDTO baseDTO = new BaseDTO();
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
 
         for (User user : userRepository.findAll()) {
-            baseDTO.setData(baseDTO.getData()+"; " +user.toString());
+            baseDTO.setData(baseDTO.getData() + "; " + user.getUsername());
         }
 
         return baseDTO;
