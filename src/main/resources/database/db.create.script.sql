@@ -24,3 +24,12 @@ CREATE TABLE `medicamento` (
   `nombre_titular` VARCHAR(120) NULL,
   `precio` DOUBLE NULL,
   PRIMARY KEY (`id_medicamento`));
+
+CREATE TABLE `farmacia` (
+  `id_farmacia` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(80) NOT NULL,
+  `direccion` varchar(100) DEFAULT NULL,
+  `telefono` varchar(45) DEFAULT NULL,
+  `localidad` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_farmacia`)
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
