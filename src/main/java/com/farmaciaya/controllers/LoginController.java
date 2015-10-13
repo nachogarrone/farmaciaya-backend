@@ -5,33 +5,44 @@ import com.farmaciaya.repositories.UserRepository;
 import com.farmaciaya.requests.LoginRequest;
 import com.farmaciaya.requests.RegisterRequest;
 import com.farmaciaya.responses.BaseDTO;
+import com.farmaciaya.responses.LoginResponse;
+import com.farmaciaya.security.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Calendar;
 
 /**
  * Created by nachogarrone on 8/10/15.
  */
 @RestController
 @RequestMapping("/user/")
-public class LoginController {
-    @Autowired
-    UserRepository userRepository;
+public class LoginController extends BaseController{
 
-    @RequestMapping(value = "login",method = RequestMethod.POST)
-    public BaseDTO login(@RequestBody LoginRequest loginRequest) {
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public BaseDTO login(@RequestParam(value = "username") String username, @RequestParam(value = "password") String
+            password) {
         BaseDTO baseDTO = new BaseDTO();
 
-        User user = userRepository.findByUsername(loginRequest.getUsername());
-        if(!user.getPassword().equals(loginRequest.getPassword())) {
+        User user = userRepository.findByUsername(username);
+        if (!user.getPassword().equals(password)) {
             baseDTO.setStatus(BaseDTO.Status.ERROR);
             baseDTO.setMessage(BaseDTO.Message.WRONG_PASSWORD);
             return baseDTO;
         }
 
+        String token = TokenGenerator.nextSessionId();
+        user.setToken(token);
+        user.setToken_created(Calendar.getInstance().getTime());
+        userRepository.save(user);
+
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setToken(token);
+        loginResponse.setFirstname(user.getFirstname());
+        loginResponse.setLastname(user.getLastname());
+
+        baseDTO.setData(loginResponse);
         return baseDTO;
     }
 

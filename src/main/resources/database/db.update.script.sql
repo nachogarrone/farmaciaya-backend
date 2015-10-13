@@ -1,0 +1,2 @@
+ALTER TABLE `user` ADD COLUMN `token` VARCHAR(250) NULL;
+ALTER TABLE `user` ADD COLUMN `token_created` DATETIME NULL;

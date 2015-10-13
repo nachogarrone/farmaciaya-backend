@@ -22,8 +22,26 @@ public class User {
     private String phone;
     private Date birthdate;
     private String email;
+    private String token;
+    private Date token_created;
 
     public User() {
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Date getToken_created() {
+        return token_created;
+    }
+
+    public void setToken_created(Date token_created) {
+        this.token_created = token_created;
     }
 
     public Integer getIdUser() {

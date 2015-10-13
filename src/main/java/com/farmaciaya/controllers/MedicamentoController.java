@@ -1,5 +1,6 @@
 package com.farmaciaya.controllers;
 
+import com.farmaciaya.entities.User;
 import com.farmaciaya.repositories.MedicamentoRepository;
 import com.farmaciaya.responses.BaseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/medicamento/")
-public class MedicamentoController {
+public class MedicamentoController extends BaseController {
 
     @Autowired
     MedicamentoRepository medicamentoRepository;
@@ -22,6 +23,13 @@ public class MedicamentoController {
     @RequestMapping(value = "all/{page}", method = RequestMethod.GET)
     public BaseDTO getMedicamentos(@PathVariable Integer page) {
         BaseDTO baseDTO = new BaseDTO();
+        User user = getCurrentUser();
+//        if (user == null) {
+//            baseDTO.setStatus(BaseDTO.Status.ERROR);
+//            baseDTO.setMessage(BaseDTO.Message.NOT_FOUND.toString());
+//            return baseDTO;
+//        }
+
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
         baseDTO.setData(medicamentoRepository.findAll(new PageRequest(page, 50)));
         return baseDTO;
@@ -30,6 +38,13 @@ public class MedicamentoController {
     @RequestMapping(value = "search/{name}", method = RequestMethod.GET)
     public BaseDTO getMedicamento(@PathVariable String name) {
         BaseDTO baseDTO = new BaseDTO();
+        User user = getCurrentUser();
+//        if (user == null) {
+//            baseDTO.setStatus(BaseDTO.Status.ERROR);
+//            baseDTO.setMessage(BaseDTO.Message.NOT_FOUND.toString());
+//            return baseDTO;
+//        }
+        
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
         baseDTO.setData(medicamentoRepository.findByNombre("%" + name + "%"));
         return baseDTO;
