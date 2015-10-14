@@ -18,7 +18,7 @@ public class BaseController {
     UserRepository userRepository;
 
     public User getCurrentUser() {
-        String token = (String) httpServletRequest.getAttribute("token");
+        String token = httpServletRequest.getParameter("auth_token");
         if (token == null) return null;
         User user = userRepository.findByToken(token);
         return user;

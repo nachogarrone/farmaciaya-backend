@@ -59,6 +59,7 @@ public class BaseDTO {
 
     public static enum Message {
         NOT_FOUND("Not found"),
+        UNATHENTICATED("SessionNotFound"),
         UNKNOWN("UnknownError"),
         WRONG_PASSWORD("WrongPassword"),
         USERNAME_TAKEN("UsernameTaken"),

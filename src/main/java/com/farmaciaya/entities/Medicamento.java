@@ -1,8 +1,8 @@
 package com.farmaciaya.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by nachogarrone on 12/10/15.
@@ -10,17 +10,31 @@ import java.util.Date;
 @Entity
 public class Medicamento {
     @Id
-    Integer id_medicamento;
-    String nombre;
-    String concentracion;
-    String forma;
-    String forma_simplificada;
-    String presentacion;
-    Integer fracciones;
-    Date vencimiento;
-    String id_sanitario;
-    String nombre_titular;
-    Double precio;
+    private Integer id_medicamento;
+    private String nombre;
+    private String concentracion;
+    private String forma;
+    private String forma_simplificada;
+    private String presentacion;
+    private Integer fracciones;
+    private Date vencimiento;
+    private String id_sanitario;
+    private String nombre_titular;
+    private Double precio;
+
+    @ManyToMany
+    @JoinTable(name = "farmacia_medicamento",
+            joinColumns={@JoinColumn(name="id_medicamento", referencedColumnName="id_medicamento")},
+            inverseJoinColumns={@JoinColumn(name="id_farmacia", referencedColumnName="id_farmacia")})
+    private List<Farmacia> farmacias;
+
+    public List<Farmacia> getFarmacias() {
+        return farmacias;
+    }
+
+    public void setFarmacias(List<Farmacia> farmacias) {
+        this.farmacias = farmacias;
+    }
 
     public Integer getId_medicamento() {
         return id_medicamento;

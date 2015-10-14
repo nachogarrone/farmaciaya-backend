@@ -24,11 +24,11 @@ public class MedicamentoController extends BaseController {
     public BaseDTO getMedicamentos(@PathVariable Integer page) {
         BaseDTO baseDTO = new BaseDTO();
         User user = getCurrentUser();
-//        if (user == null) {
-//            baseDTO.setStatus(BaseDTO.Status.ERROR);
-//            baseDTO.setMessage(BaseDTO.Message.NOT_FOUND.toString());
-//            return baseDTO;
-//        }
+        if (user == null) {
+            baseDTO.setStatus(BaseDTO.Status.ERROR);
+            baseDTO.setMessage(BaseDTO.Message.UNATHENTICATED.toString());
+            return baseDTO;
+        }
 
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
         baseDTO.setData(medicamentoRepository.findAll(new PageRequest(page, 50)));
@@ -36,17 +36,32 @@ public class MedicamentoController extends BaseController {
     }
 
     @RequestMapping(value = "search/{name}", method = RequestMethod.GET)
-    public BaseDTO getMedicamento(@PathVariable String name) {
+    public BaseDTO searchMedicamento(@PathVariable String name) {
         BaseDTO baseDTO = new BaseDTO();
         User user = getCurrentUser();
-//        if (user == null) {
-//            baseDTO.setStatus(BaseDTO.Status.ERROR);
-//            baseDTO.setMessage(BaseDTO.Message.NOT_FOUND.toString());
-//            return baseDTO;
-//        }
-        
+        if (user == null) {
+            baseDTO.setStatus(BaseDTO.Status.ERROR);
+            baseDTO.setMessage(BaseDTO.Message.UNATHENTICATED.toString());
+            return baseDTO;
+        }
+
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
         baseDTO.setData(medicamentoRepository.findByNombre("%" + name + "%"));
+        return baseDTO;
+    }
+
+    @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
+    public BaseDTO getMedicamento(@PathVariable Integer id) {
+        BaseDTO baseDTO = new BaseDTO();
+        User user = getCurrentUser();
+        if (user == null) {
+            baseDTO.setStatus(BaseDTO.Status.ERROR);
+            baseDTO.setMessage(BaseDTO.Message.UNATHENTICATED.toString());
+            return baseDTO;
+        }
+
+        baseDTO.setStatus(BaseDTO.Status.SUCCESS);
+        baseDTO.setData(medicamentoRepository.findOne(id));
         return baseDTO;
     }
 }
