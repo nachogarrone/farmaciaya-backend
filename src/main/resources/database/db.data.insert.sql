@@ -1275,3 +1275,11 @@ VALUES (1, 'ALELUYA III                    ', 'MALDONADO,CNO. 4902 ESQ. VERACIER
   (64, 'Vicor', 'Rivera 1942', '', 'Montevideo'), (65, 'Vicor', 'Rivera 1942', '', 'Montevideo');
 /*!40000 ALTER TABLE `farmacia` ENABLE KEYS */;
 UNLOCK TABLES;
+
+LOCK TABLES `farmacia_medicamento` WRITE;
+/*!40000 ALTER TABLE `farmacia_medicamento` DISABLE KEYS */;
+INSERT INTO `farmacia_medicamento`
+VALUES (1, 1, 1000), (1, 982, 999), (1, 983, 999), (1, 984, 999), (2, 984, 999), (3, 984, 999), (3, 985, 999),
+  (4, 984, 999), (5, 984, 999);
+/*!40000 ALTER TABLE `farmacia_medicamento` ENABLE KEYS */;
+UNLOCK TABLES;

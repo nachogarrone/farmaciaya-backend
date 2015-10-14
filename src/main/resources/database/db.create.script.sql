@@ -8,7 +8,9 @@ CREATE TABLE `user` (
   `phone` varchar(15) DEFAULT NULL,
   `birthdate` datetime DEFAULT NULL,
   `email` varchar(60) NOT NULL,
-  PRIMARY KEY (`id_user`)
+  `token` VARCHAR(250) NULL,
+  `token_created` DATETIME NULL,
+PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `medicamento` (
@@ -33,3 +35,13 @@ CREATE TABLE `farmacia` (
   `localidad` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_farmacia`)
 ) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `farmacia_medicamento` (
+  `id_farmacia` int(11) NOT NULL,
+  `id_medicamento` int(11) NOT NULL,
+  `stock` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_farmacia`,`id_medicamento`),
+  KEY `farmacia_medicamento_id_medicamento_idx` (`id_medicamento`),
+  CONSTRAINT `farmacia_medicamento_id_farmacia` FOREIGN KEY (`id_farmacia`) REFERENCES `farmacia` (`id_farmacia`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `farmacia_medicamento_id_medicamento` FOREIGN KEY (`id_medicamento`) REFERENCES `medicamento` (`id_medicamento`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
