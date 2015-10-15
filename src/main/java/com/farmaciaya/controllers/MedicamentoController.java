@@ -3,6 +3,7 @@ package com.farmaciaya.controllers;
 import com.farmaciaya.entities.User;
 import com.farmaciaya.repositories.MedicamentoRepository;
 import com.farmaciaya.responses.BaseDTO;
+import com.wordnik.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by nachogarrone on 12/10/15.
  */
+@Api(basePath = "/medicamento", value = "medicamento", description = "CRUD para medicaciones", produces =
+        "application/json")
 @RestController
 @RequestMapping("/medicamento/")
 public class MedicamentoController extends BaseController {
