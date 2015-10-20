@@ -5,7 +5,8 @@
 
     <groupId>org.springframework</groupId>
     <artifactId>FarmaciaYa-Backend</artifactId>
-    <version>0.1.0</version>
+    <version>0.6-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

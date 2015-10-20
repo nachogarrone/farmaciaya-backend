@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by nachogarrone on 12/10/15.
- */@RestController
-   @RequestMapping("/farmacia/")
-   public class FarmaciaController {
+ */
+@RestController
+@RequestMapping("/farmacia/")
+public class FarmaciaController {
 
     @Autowired
     FarmaciaRepository farmaciaRepository;
