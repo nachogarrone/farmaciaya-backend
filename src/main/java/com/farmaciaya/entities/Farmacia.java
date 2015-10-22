@@ -9,7 +9,7 @@ import javax.persistence.Id;
 @Entity
 public class Farmacia {
     @Id
-    Integer id_farmacia;
+    Integer farmacia_id;
     String nombre;
     String direccion;
     String telefono;
@@ -33,12 +33,12 @@ public class Farmacia {
         this.longitud = longitud;
     }
 
-    public Integer getId_farmacia() {
-        return id_farmacia;
+    public Integer getFarmacia_id() {
+        return farmacia_id;
     }
 
-    public void setId_farmacia(Integer id_farmacia) {
-        this.id_farmacia = id_farmacia;
+    public void setFarmacia_id(Integer farmacia_id) {
+        this.farmacia_id = farmacia_id;
     }
 
     public String getNombre() {

@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class Medicamento {
     @Id
-    private Integer id_medicamento;
+    private Integer medicamento_id;
     private String nombre;
     private String concentracion;
     private String forma;
@@ -24,8 +24,8 @@ public class Medicamento {
 
     @ManyToMany
     @JoinTable(name = "farmacia_medicamento",
-            joinColumns={@JoinColumn(name="id_medicamento", referencedColumnName="id_medicamento")},
-            inverseJoinColumns={@JoinColumn(name="id_farmacia", referencedColumnName="id_farmacia")})
+            joinColumns={@JoinColumn(name="medicamento_id", referencedColumnName="medicamento_id")},
+            inverseJoinColumns={@JoinColumn(name="farmacia_id", referencedColumnName="farmacia_id")})
     private List<Farmacia> farmacias;
 
     public List<Farmacia> getFarmacias() {
@@ -36,12 +36,12 @@ public class Medicamento {
         this.farmacias = farmacias;
     }
 
-    public Integer getId_medicamento() {
-        return id_medicamento;
+    public Integer getMedicamento_id() {
+        return medicamento_id;
     }
 
-    public void setId_medicamento(Integer id_medicamento) {
-        this.id_medicamento = id_medicamento;
+    public void setMedicamento_id(Integer medicamento_id) {
+        this.medicamento_id = medicamento_id;
     }
 
     public String getNombre() {

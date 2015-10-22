@@ -13,7 +13,7 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idUser;
+    private Integer user_id;
     private String username;
     private String password;
     private String firstname;
@@ -44,12 +44,12 @@ public class User {
         this.token_created = token_created;
     }
 
-    public Integer getIdUser() {
-        return idUser;
+    public Integer getUser_id() {
+        return user_id;
     }
 
-    public void setIdUser(Integer idUser) {
-        this.idUser = idUser;
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
     }
 
     public String getUsername() {
