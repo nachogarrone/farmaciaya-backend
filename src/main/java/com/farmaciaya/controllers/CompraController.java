@@ -1,5 +1,6 @@
 package com.farmaciaya.controllers;
 
+import com.farmaciaya.email.EmailSender;
 import com.farmaciaya.entities.Compra;
 import com.farmaciaya.entities.Farmacia;
 import com.farmaciaya.entities.Medicamento;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
 import java.util.*;
 
 /**
@@ -62,10 +64,10 @@ public class CompraController extends BaseController {
         HashMap<Farmacia, List<Medicamento>> compras = new HashMap<>();
         for (CompraItem compraItem : compraRequest.getCompraItems()) {
             Farmacia farmacia = farmaciaRepository.findOne(compraItem.getIdFarmacia());
-            if(farmacia!=null){
-                if(!compras.containsKey(farmacia)) compras.put(farmacia, new ArrayList<>());
+            if (farmacia != null) {
+                if (!compras.containsKey(farmacia)) compras.put(farmacia, new ArrayList<>());
                 Medicamento medicamento = medicamentoRepository.findOne(compraItem.getIdMedicamento());
-                if(medicamento!=null){
+                if (medicamento != null) {
                     compras.get(farmacia).add(medicamento);
                 }
             }
@@ -81,6 +83,16 @@ public class CompraController extends BaseController {
             compraRepository.save(compra);
         }
 
+        try {
+            if (user.getEmail() != null && user.getEmail().length() > 0) {
+                EmailSender.sendMail(user.getEmail(), "Compra realizada con éxito!", "Hola, hemos registrado su compra " +
+                        "exitosamente. A la brevedad recibirá su pedido.");
+            }
+        } catch (MessagingException e) {
+            baseDTO.setMessage("Error al enviar email");
+            baseDTO.setStatus(BaseDTO.Status.ERROR);
+            return baseDTO;
+        }
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
         return baseDTO;
     }
