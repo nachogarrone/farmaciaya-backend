@@ -11,8 +11,8 @@ import java.util.Properties;
 public class EmailSender {
 
     public static void sendMail(String to, String subject, String msg) throws MessagingException {
-        String from = "farmayaa@gmail.com";
-        String password = "ing32015";
+        final String from = "farmayaa@gmail.com";
+        final String password = "ing32015";
 
 //        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 //        mailSender.setHost("smtp.gmail.com");

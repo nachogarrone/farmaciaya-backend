@@ -4,27 +4,28 @@ package com.farmaciaya.requests;
  * Created by nachogarrone on 20/10/15.
  */
 public class CompraItem {
-    Integer idMedicamento;
-    Integer idFarmacia;
+    String medicamentoId;
+    Integer farmaciaId;
 
-    public CompraItem(Integer idMedicamento, Integer idFarmacia) {
-        this.idMedicamento = idMedicamento;
-        this.idFarmacia = idFarmacia;
+    public CompraItem(String medicamentoId, Integer farmaciaId) {
+
+        this.medicamentoId = medicamentoId;
+        this.farmaciaId = farmaciaId;
     }
 
-    public Integer getIdMedicamento() {
-        return idMedicamento;
+    public String getMedicamentoId() {
+        return medicamentoId;
     }
 
-    public void setIdMedicamento(Integer idMedicamento) {
-        this.idMedicamento = idMedicamento;
+    public void setMedicamentoId(String medicamentoId) {
+        this.medicamentoId = medicamentoId;
     }
 
-    public Integer getIdFarmacia() {
-        return idFarmacia;
+    public Integer getFarmaciaId() {
+        return farmaciaId;
     }
 
-    public void setIdFarmacia(Integer idFarmacia) {
-        this.idFarmacia = idFarmacia;
+    public void setFarmaciaId(Integer farmaciaId) {
+        this.farmaciaId = farmaciaId;
     }
 }

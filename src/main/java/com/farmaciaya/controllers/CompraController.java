@@ -9,9 +9,7 @@ import com.farmaciaya.repositories.CompraRepository;
 import com.farmaciaya.repositories.FarmaciaRepository;
 import com.farmaciaya.repositories.MedicamentoRepository;
 import com.farmaciaya.requests.CompraItem;
-import com.farmaciaya.requests.CompraRequest;
 import com.farmaciaya.responses.BaseDTO;
-import com.wordnik.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +22,6 @@ import java.util.*;
 /**
  * Created by nachogarrone on 20/10/15.
  */
-@Api(basePath = "/compra", value = "compra", description = "CRUD para compras", produces = "application/json")
 @RestController
 @RequestMapping("/compra/")
 public class CompraController extends BaseController {
@@ -35,7 +32,7 @@ public class CompraController extends BaseController {
     @Autowired
     FarmaciaRepository farmaciaRepository;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "get", method = RequestMethod.GET)
     public BaseDTO getCompras() {
         BaseDTO baseDTO = new BaseDTO();
         User user = getCurrentUser();
@@ -50,8 +47,8 @@ public class CompraController extends BaseController {
         return baseDTO;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public BaseDTO saveCompras(@RequestBody() CompraRequest compraRequest) {
+    @RequestMapping(value = "comprar", method = RequestMethod.POST)
+    public BaseDTO saveCompras(@RequestBody CompraItem[] compraItems) {
         BaseDTO baseDTO = new BaseDTO();
         User user = getCurrentUser();
         if (user == null) {
@@ -62,11 +59,11 @@ public class CompraController extends BaseController {
 
         // ARMAR 1 COMPRA POR CADA FARMACIA
         HashMap<Farmacia, List<Medicamento>> compras = new HashMap<>();
-        for (CompraItem compraItem : compraRequest.getCompraItems()) {
-            Farmacia farmacia = farmaciaRepository.findOne(compraItem.getIdFarmacia());
+        for (CompraItem compraItem : compraItems) {
+            Farmacia farmacia = farmaciaRepository.findOne(compraItem.getFarmaciaId());
             if (farmacia != null) {
-                if (!compras.containsKey(farmacia)) compras.put(farmacia, new ArrayList<>());
-                Medicamento medicamento = medicamentoRepository.findOne(compraItem.getIdMedicamento());
+                if (!compras.containsKey(farmacia)) compras.put(farmacia, new ArrayList<Medicamento>());
+                Medicamento medicamento = medicamentoRepository.findOne(Integer.valueOf(compraItem.getMedicamentoId()));
                 if (medicamento != null) {
                     compras.get(farmacia).add(medicamento);
                 }
