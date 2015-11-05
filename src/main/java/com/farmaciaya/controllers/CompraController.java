@@ -11,10 +11,7 @@ import com.farmaciaya.repositories.MedicamentoRepository;
 import com.farmaciaya.requests.CompraItem;
 import com.farmaciaya.responses.BaseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.util.*;
@@ -44,6 +41,32 @@ public class CompraController extends BaseController {
 
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
         baseDTO.setData(compraRepository.findByUser(user));
+        return baseDTO;
+    }
+
+    @RequestMapping(value = "valuate/{id}/{value}", method = RequestMethod.POST)
+    public BaseDTO valuateCompra(@PathVariable Integer id, @PathVariable Integer value) {
+        BaseDTO baseDTO = new BaseDTO();
+
+        Compra compra = compraRepository.findOne(id);
+        if (compra == null) {
+            baseDTO.setStatus(BaseDTO.Status.ERROR);
+            baseDTO.setMessage(BaseDTO.Message.NOT_FOUND);
+            return baseDTO;
+        }
+
+        if (compra.getValoracion() != null) {
+            baseDTO.setStatus(BaseDTO.Status.ERROR);
+            baseDTO.setMessage("ALREADYVALUATED");
+            return baseDTO;
+        }
+
+        compra.setValoracion(value);
+        compra.getFarmacia().setValoraciones(compra.getFarmacia().getValoraciones() + 1);
+        compra.getFarmacia().setValoracion(compra.getFarmacia().getValoracion() + value);
+        compraRepository.save(compra);
+
+        baseDTO.setStatus(BaseDTO.Status.SUCCESS);
         return baseDTO;
     }
 

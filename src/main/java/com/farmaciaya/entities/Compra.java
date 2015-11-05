@@ -17,14 +17,31 @@ public class Compra {
     private User user;
     private Date date;
     private Integer total;
+    private Integer valoracion;
     @ManyToOne
     @JoinColumn(name = "farmacia_id")
     private Farmacia farmacia;
     @OneToMany
     @JoinTable(name = "compra_articulos",
-            joinColumns={@JoinColumn(name="compra_id", referencedColumnName="compra_id")},
-            inverseJoinColumns={@JoinColumn(name="medicamento_id", referencedColumnName="medicamento_id")})
+            joinColumns = {@JoinColumn(name = "compra_id", referencedColumnName = "compra_id")},
+            inverseJoinColumns = {@JoinColumn(name = "medicamento_id", referencedColumnName = "medicamento_id")})
     private List<Medicamento> medicamentos;
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public Integer getValoracion() {
+        return valoracion;
+    }
+
+    public void setValoracion(Integer valoracion) {
+        this.valoracion = valoracion;
+    }
 
     public Date getDate() {
         return date;
