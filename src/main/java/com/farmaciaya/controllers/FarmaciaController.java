@@ -1,5 +1,6 @@
 package com.farmaciaya.controllers;
 
+import com.farmaciaya.entities.Farmacia;
 import com.farmaciaya.repositories.FarmaciaRepository;
 import com.farmaciaya.responses.BaseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,37 @@ public class FarmaciaController {
         return baseDTO;
     }
 
+    @RequestMapping(value = "get/{id}", method = RequestMethod.GET)
+    public BaseDTO getFarmaciaById(@PathVariable Integer id) {
+        BaseDTO baseDTO = new BaseDTO();
+        baseDTO.setStatus(BaseDTO.Status.SUCCESS);
+        baseDTO.setData(farmaciaRepository.findOne(id));
+        return baseDTO;
+    }
+
     @RequestMapping(value = "search/{name}", method = RequestMethod.GET)
     public BaseDTO getFarmacia(@PathVariable String name) {
         BaseDTO baseDTO = new BaseDTO();
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
         baseDTO.setData(farmaciaRepository.findByNombre("%" + name + "%"));
+        return baseDTO;
+    }
+
+    @RequestMapping(value = "valuate/{id}/{value}", method = RequestMethod.POST)
+    public BaseDTO valuateFarmacia(@PathVariable Integer id, @PathVariable Integer value) {
+        BaseDTO baseDTO = new BaseDTO();
+
+        Farmacia farmacia = farmaciaRepository.findOne(id);
+        if (farmacia == null) {
+            baseDTO.setStatus(BaseDTO.Status.ERROR);
+            baseDTO.setMessage(BaseDTO.Message.NOT_FOUND);
+            return baseDTO;
+        }
+        if (farmacia.getValoracion() == null) farmacia.setValoracion((float) value);
+        farmacia.setValoracion((farmacia.getValoracion() + value) / 2);
+        farmaciaRepository.save(farmacia);
+        baseDTO.setStatus(BaseDTO.Status.SUCCESS);
+
         return baseDTO;
     }
 }

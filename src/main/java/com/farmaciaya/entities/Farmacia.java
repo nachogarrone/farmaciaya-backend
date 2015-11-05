@@ -16,6 +16,15 @@ public class Farmacia {
     String localidad;
     Float latitud;
     Float longitud;
+    Float valoracion;
+
+    public Float getValoracion() {
+        return valoracion;
+    }
+
+    public void setValoracion(Float valoracion) {
+        this.valoracion = valoracion;
+    }
 
     public Float getLatitud() {
         return latitud;
