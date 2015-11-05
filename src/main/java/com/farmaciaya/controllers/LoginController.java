@@ -51,7 +51,7 @@ public class LoginController extends BaseController{
         BaseDTO baseDTO = new BaseDTO();
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
 
-        if (userRepository.findByUsername(registerRequest.getUsername()) != null) {
+        if (userRepository.findByUsername(registerRequest.getUsername()) == null) {
             User user = new User();
             user.setUsername(registerRequest.getUsername());
             user.setPassword(registerRequest.getPassword());
