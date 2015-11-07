@@ -4,4 +4,5 @@ Repositorio que provee una API RESTful para la aplicación FarmaciaYA
 
 == Pre - requisitos
 
-:java_version: 1.8
+Java version: 1.8
+Tomcat version: 8
