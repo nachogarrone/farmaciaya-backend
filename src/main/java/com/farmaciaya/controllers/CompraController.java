@@ -9,6 +9,7 @@ import com.farmaciaya.repositories.CompraRepository;
 import com.farmaciaya.repositories.FarmaciaRepository;
 import com.farmaciaya.repositories.MedicamentoRepository;
 import com.farmaciaya.requests.CompraItem;
+import com.farmaciaya.requests.CompraWrapper;
 import com.farmaciaya.responses.BaseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,12 @@ public class CompraController extends BaseController {
     public BaseDTO valuateCompra(@PathVariable Integer id, @PathVariable Integer value) {
         BaseDTO baseDTO = new BaseDTO();
 
+        if (null == getCurrentUser()) {
+            baseDTO.setStatus(BaseDTO.Status.ERROR);
+            baseDTO.setMessage(BaseDTO.Message.UNATHENTICATED);
+            return baseDTO;
+        }
+
         Compra compra = compraRepository.findOne(id);
         if (compra == null) {
             baseDTO.setStatus(BaseDTO.Status.ERROR);
@@ -71,9 +78,9 @@ public class CompraController extends BaseController {
     }
 
     @RequestMapping(value = "comprar", method = RequestMethod.POST)
-    public BaseDTO saveCompras(@RequestBody CompraItem[] compraItems) {
+    public BaseDTO saveCompras(@RequestBody CompraWrapper compraWrapper) {
         BaseDTO baseDTO = new BaseDTO();
-        User user = getCurrentUser();
+        User user = userRepository.findByToken(compraWrapper.getAuth_token());
         if (user == null) {
             baseDTO.setStatus(BaseDTO.Status.ERROR);
             baseDTO.setMessage(BaseDTO.Message.UNATHENTICATED.toString());
@@ -82,7 +89,7 @@ public class CompraController extends BaseController {
 
         // ARMAR 1 COMPRA POR CADA FARMACIA
         HashMap<Farmacia, List<Medicamento>> compras = new HashMap<>();
-        for (CompraItem compraItem : compraItems) {
+        for (CompraItem compraItem : compraWrapper.getCompras()) {
             Farmacia farmacia = farmaciaRepository.findOne(compraItem.getFarmaciaId());
             if (farmacia != null) {
                 if (!compras.containsKey(farmacia)) compras.put(farmacia, new ArrayList<Medicamento>());
@@ -99,6 +106,7 @@ public class CompraController extends BaseController {
             compra.setDate(Calendar.getInstance().getTime());
             compra.setMedicamentos(next.getValue());
             compra.setFarmacia(next.getKey());
+            compra.setTotal(0);
 
             compra = compraRepository.save(compra);
             baseDTO.setData(compra.getCompra_id());
@@ -111,7 +119,7 @@ public class CompraController extends BaseController {
             }
         } catch (MessagingException e) {
             baseDTO.setMessage("Error al enviar email");
-            baseDTO.setStatus(BaseDTO.Status.ERROR);
+            baseDTO.setStatus(BaseDTO.Status.WARNING);
             return baseDTO;
         }
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);

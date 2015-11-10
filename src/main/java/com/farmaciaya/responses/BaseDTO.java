@@ -54,7 +54,7 @@ public class BaseDTO {
     }
 
     public static enum Status {
-        SUCCESS, ERROR;
+        SUCCESS, WARNING, ERROR;
     }
 
     public static enum Message {

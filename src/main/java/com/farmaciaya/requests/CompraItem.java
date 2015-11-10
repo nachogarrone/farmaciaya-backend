@@ -13,6 +13,9 @@ public class CompraItem {
         this.farmaciaId = farmaciaId;
     }
 
+    public CompraItem() {
+    }
+
     public String getMedicamentoId() {
         return medicamentoId;
     }
