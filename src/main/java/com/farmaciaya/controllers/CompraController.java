@@ -69,6 +69,9 @@ public class CompraController extends BaseController {
         }
 
         compra.setValoracion(value);
+        if (compra.getFarmacia().getValoraciones() == null) {
+            compra.getFarmacia().setValoraciones(0);
+        }
         compra.getFarmacia().setValoraciones(compra.getFarmacia().getValoraciones() + 1);
         compra.getFarmacia().setValoracion(compra.getFarmacia().getValoracion() + value);
         compraRepository.save(compra);
