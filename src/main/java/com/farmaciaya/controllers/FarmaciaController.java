@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/farmacia/")
-public class FarmaciaController {
+public class FarmaciaController extends BaseController{
 
     @Autowired
     FarmaciaRepository farmaciaRepository;

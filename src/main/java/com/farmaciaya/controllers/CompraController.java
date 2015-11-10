@@ -100,7 +100,8 @@ public class CompraController extends BaseController {
             compra.setMedicamentos(next.getValue());
             compra.setFarmacia(next.getKey());
 
-            compraRepository.save(compra);
+            compra = compraRepository.save(compra);
+            baseDTO.setData(compra.getCompra_id());
         }
 
         try {
@@ -114,6 +115,7 @@ public class CompraController extends BaseController {
             return baseDTO;
         }
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
+
         return baseDTO;
     }
 }
