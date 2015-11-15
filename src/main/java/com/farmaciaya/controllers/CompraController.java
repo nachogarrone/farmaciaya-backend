@@ -109,7 +109,12 @@ public class CompraController extends BaseController {
             compra.setDate(Calendar.getInstance().getTime());
             compra.setMedicamentos(next.getValue());
             compra.setFarmacia(next.getKey());
-            compra.setTotal(0);
+            int total = 0;
+            for(Medicamento med : next.getValue()){
+                total += med.getPrecio();
+            }
+            compra.setTotal(total);
+
 
             compra = compraRepository.save(compra);
             baseDTO.setData(compra.getCompra_id());
