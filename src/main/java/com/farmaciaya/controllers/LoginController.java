@@ -60,6 +60,7 @@ public class LoginController extends BaseController{
             user.setEmail(registerRequest.getEmail());
             user.setAddress(registerRequest.getAddress());
             user.setBirthdate(registerRequest.getBirthdate());
+            user.setPhone(registerRequest.getPhone());
             if (userRepository.save(user) != null) {
                 baseDTO.setStatus(BaseDTO.Status.SUCCESS);
             } else {

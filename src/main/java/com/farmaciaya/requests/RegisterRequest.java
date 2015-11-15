@@ -16,6 +16,7 @@ public class RegisterRequest {
     String address;
     String neighborhood;
     Date birthdate;
+    String phone;
 
     public String getUsername() {
         return username;
@@ -23,6 +24,14 @@ public class RegisterRequest {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getPassword() {
