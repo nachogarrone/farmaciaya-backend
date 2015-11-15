@@ -3,6 +3,8 @@ package com.farmaciaya.entities;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import com.farmaciaya.controllers.JsonDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Created by nachogarrone on 20/10/15.
@@ -43,6 +45,7 @@ public class Compra {
         this.valoracion = valoracion;
     }
 
+    @JsonSerialize(using=JsonDateSerializer.class)
     public Date getDate() {
         return date;
     }

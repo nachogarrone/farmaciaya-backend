@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
+import com.farmaciaya.controllers.JsonDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Created by nachogarrone on 11/10/15.
@@ -100,6 +102,7 @@ public class User {
         this.phone = phone;
     }
 
+    @JsonSerialize(using=JsonDateSerializer.class)
     public Date getBirthdate() {
         return birthdate;
     }
