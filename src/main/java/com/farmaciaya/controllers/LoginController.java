@@ -46,7 +46,7 @@ public class LoginController extends BaseController{
         return baseDTO;
     }
 
-    @RequestMapping(value = "register", method = RequestMethod.POST)
+     @RequestMapping(value = "register", method = RequestMethod.POST)
     public BaseDTO register(@RequestBody RegisterRequest registerRequest) {
         BaseDTO baseDTO = new BaseDTO();
         baseDTO.setStatus(BaseDTO.Status.SUCCESS);
@@ -70,6 +70,50 @@ public class LoginController extends BaseController{
         } else {
             baseDTO.setStatus(BaseDTO.Status.ERROR);
             baseDTO.setMessage(BaseDTO.Message.USERNAME_TAKEN);
+        }
+
+        return baseDTO;
+    }
+   
+   
+   @RequestMapping(value = "getuser", method = RequestMethod.POST)
+    public BaseDTO getuser(@RequestParam(value = "auth_token") String auth_token) {
+        BaseDTO baseDTO = new BaseDTO();
+        baseDTO.setStatus(BaseDTO.Status.SUCCESS);
+        User user = userRepository.findByToken(auth_token);
+        if ( user != null) {
+            baseDTO.setData(user);
+        } else {
+            baseDTO.setStatus(BaseDTO.Status.ERROR);
+            baseDTO.setMessage(BaseDTO.Message.UNKNOWN);
+        }
+        return baseDTO;
+    }
+   
+   
+    @RequestMapping(value = "update", method = RequestMethod.POST)
+    public BaseDTO update(@RequestBody RegisterRequest registerRequest) {
+        BaseDTO baseDTO = new BaseDTO();
+        baseDTO.setStatus(BaseDTO.Status.SUCCESS);
+        User user = userRepository.findByUsername(registerRequest.getUsername());
+        if (user != null) {
+            //user.setUsername(registerRequest.getUsername());
+            user.setPassword(registerRequest.getPassword());
+            user.setFirstname(registerRequest.getFirstname());
+            user.setLastname(registerRequest.getLastname());
+            user.setEmail(registerRequest.getEmail());
+            user.setAddress(registerRequest.getAddress());
+            user.setBirthdate(registerRequest.getBirthdate());
+            user.setPhone(registerRequest.getPhone());
+            if (userRepository.save(user) != null) {
+                baseDTO.setStatus(BaseDTO.Status.SUCCESS);
+            } else {
+                baseDTO.setStatus(BaseDTO.Status.ERROR);
+                baseDTO.setMessage(BaseDTO.Message.UNKNOWN);
+            }
+        } else {
+            baseDTO.setStatus(BaseDTO.Status.ERROR);
+            baseDTO.setMessage(BaseDTO.Message.NOT_FOUND);
         }
 
         return baseDTO;
