@@ -98,7 +98,11 @@ public class CompraController extends BaseController {
                 if (!compras.containsKey(farmacia)) compras.put(farmacia, new ArrayList<Medicamento>());
                 Medicamento medicamento = medicamentoRepository.findOne(Integer.valueOf(compraItem.getMedicamentoId()));
                 if (medicamento != null) {
-                    compras.get(farmacia).add(medicamento);
+                    if(!compras.get(farmacia).contains(medicamento)) {
+                        compras.get(farmacia).add(medicamento);
+                    }else {
+                        // Medicamento ya esta en la compra
+                    }
                 }
             }
         }
